@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Prompt Ledger — 50+ AI Prompts for Accounting Writers</title>
+<meta name="description" content="A chart-of-accounts style library of 50 writing prompts and 12 chart &amp; diagram prompts for accounting books, documents and visuals. Built for Claude and ChatGPT.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F6F0;
+  --paper-deep:#EDEFE6;
+  --ruling:#DCE2D4;
+  --ink:#16271C;
+  --green:#1E6B4E;
+  --green-deep:#14503A;
+  --redink:#AE3B2C;
+  --pencil:#69716A;
+  --card:#FCFCF8;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --sans:'IBM Plex Sans',system-ui,sans-serif;
+  --slab:'Bitter',Georgia,serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:
+    repeating-linear-gradient(to bottom,transparent 0,transparent 31px,var(--ruling) 31px,var(--ruling) 32px),
+    var(--paper);
+  line-height:1.6;
+}
+a{color:var(--green-deep)}
+::selection{background:var(--green);color:#fff}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+
+/* ── Header: ledger title block ───────────────── */
+header{
+  border-bottom:3px double var(--ink);
+  background:var(--paper);
+  position:relative;
+}
+.masthead{padding:56px 0 36px;position:relative}
+.eyebrow{
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--green-deep);
+  display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+}
+.eyebrow .rule{flex:1;height:1px;background:var(--ink);opacity:.25;min-width:40px}
+h1{
+  font-family:var(--slab);font-weight:900;
+  font-size:clamp(2.4rem,6vw,4.2rem);
+  line-height:1.04;margin:.45em 0 .3em;letter-spacing:-.01em;
+}
+h1 em{font-style:normal;color:var(--green)}
+.lede{max-width:62ch;color:#33402F;font-size:1.06rem}
+.lede strong{color:var(--ink)}
+.masthead-meta{
+  margin-top:26px;display:grid;
+  grid-template-columns:repeat(3,auto);justify-content:start;
+  border:1.5px solid var(--ink);background:var(--card);
+  font-family:var(--mono);font-size:.8rem;
+}
+.masthead-meta div{
+  padding:10px 18px;border-right:1.5px solid var(--ink);
+  display:flex;gap:8px;align-items:baseline;white-space:nowrap;
+}
+.masthead-meta div:last-child{border-right:0}
+.masthead-meta b{font-weight:500;color:var(--green-deep)}
+
+/* ── Sticky index nav: ledger tabs ───────────────── */
+nav.tabs{
+  position:sticky;top:0;z-index:40;
+  background:var(--paper-deep);
+  border-bottom:1.5px solid var(--ink);
+}
+.tabs .wrap{display:flex;align-items:stretch;gap:0;overflow-x:auto;scrollbar-width:none}
+.tabs .wrap::-webkit-scrollbar{display:none}
+.tabs a{
+  font-family:var(--mono);font-size:.76rem;letter-spacing:.06em;
+  text-decoration:none;color:var(--ink);
+  padding:13px 16px 11px;border-right:1px solid rgba(22,39,28,.18);
+  white-space:nowrap;display:flex;gap:8px;align-items:baseline;
+  border-bottom:3px solid transparent;
+}
+.tabs a:first-child{border-left:1px solid rgba(22,39,28,.18)}
+.tabs a b{font-weight:500;color:var(--redink)}
+.tabs a:hover{background:var(--card)}
+.tabs a:focus-visible,
+button:focus-visible,input:focus-visible{
+  outline:2.5px solid var(--redink);outline-offset:2px;
+}
+.tabs a.active{border-bottom-color:var(--green);background:var(--card)}
+
+/* ── Search row ───────────────── */
+.toolbar{padding:30px 0 6px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.search{
+  flex:1;min-width:240px;display:flex;align-items:center;gap:10px;
+  background:var(--card);border:1.5px solid var(--ink);padding:10px 14px;
+}
+.search svg{flex:none;opacity:.55}
+.search input{
+  border:0;background:transparent;font-family:var(--mono);font-size:.9rem;
+  width:100%;color:var(--ink);
+}
+.search input::placeholder{color:var(--pencil)}
+.count{font-family:var(--mono);font-size:.78rem;color:var(--pencil);letter-spacing:.05em}
+
+/* ── Sections ───────────────── */
+section.acct{padding:42px 0 8px}
+.acct-head{
+  display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:baseline;
+  border-bottom:1.5px solid var(--ink);padding-bottom:12px;margin-bottom:6px;
+}
+.acct-code{
+  font-family:var(--mono);font-weight:500;font-size:1rem;
+  color:#fff;background:var(--green-deep);padding:4px 12px;
+  letter-spacing:.08em;
+}
+.acct-code.viz{background:var(--redink)}
+.acct-head h2{
+  font-family:var(--slab);font-weight:700;
+  font-size:clamp(1.4rem,3vw,1.9rem);line-height:1.15;
+}
+.acct-desc{grid-column:2;color:var(--pencil);font-size:.93rem;max-width:70ch}
+
+/* ── Prompt entries: ledger rows ───────────────── */
+.entry{
+  background:var(--card);
+  border:1px solid rgba(22,39,28,.28);
+  border-left:0;border-right:0;
+  margin:18px 0;
+  display:grid;
+  grid-template-columns:96px 1fr;
+  position:relative;
+}
+.entry::before{ /* red ledger margin inside the card */
+  content:"";position:absolute;top:0;bottom:0;left:96px;width:1.5px;
+  background:var(--redink);opacity:.4;
+}
+.entry-code{
+  font-family:var(--mono);font-size:.86rem;font-weight:500;
+  color:var(--green-deep);padding:18px 12px;text-align:right;
+  background:var(--paper-deep);
+}
+.entry-code small{display:block;font-size:.62rem;color:var(--pencil);letter-spacing:.1em;margin-top:2px}
+.entry-body{padding:16px 20px 18px}
+.entry-top{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:8px}
+.entry h3{font-family:var(--slab);font-weight:700;font-size:1.06rem}
+.tag{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid currentColor;padding:2px 8px;color:var(--pencil);
+}
+.prompt{
+  font-family:var(--mono);font-size:.84rem;line-height:1.65;
+  background:var(--paper);border:1px dashed rgba(22,39,28,.35);
+  padding:14px 16px;color:#22332A;white-space:pre-wrap;
+}
+.prompt mark{background:transparent;color:var(--redink);font-weight:500}
+.entry-actions{margin-top:10px;display:flex;gap:10px;align-items:center}
+.copy{
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;cursor:pointer;
+  background:var(--ink);color:#fff;border:1.5px solid var(--ink);
+  padding:7px 16px;transition:background .15s,color .15s;
+}
+.copy:hover{background:var(--green-deep);border-color:var(--green-deep)}
+.copy.done{background:var(--green);border-color:var(--green)}
+.use{font-family:var(--mono);font-size:.72rem;color:var(--pencil)}
+
+.hidden{display:none}
+.no-results{
+  font-family:var(--mono);text-align:center;color:var(--pencil);
+  padding:60px 0;font-size:.9rem;
+}
+
+/* ── Tips strip ───────────────── */
+.tips{
+  margin:56px 0 0;border:1.5px solid var(--ink);background:var(--card);
+}
+.tips-head{
+  background:var(--ink);color:var(--paper);font-family:var(--mono);
+  font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;
+  padding:10px 18px;
+}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.tip{padding:18px 20px;border-right:1px solid rgba(22,39,28,.2);border-top:1px solid rgba(22,39,28,.2);font-size:.9rem}
+.tip b{font-family:var(--slab);display:block;margin-bottom:4px}
+.tip span{color:#3A463B}
+
+footer{
+  margin-top:64px;border-top:3px double var(--ink);
+  padding:26px 0 40px;font-family:var(--mono);font-size:.74rem;
+  color:var(--pencil);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+
+@media (max-width:640px){
+  .entry{grid-template-columns:1fr}
+  .entry::before{display:none}
+  .entry-code{text-align:left;padding:10px 16px 8px;border-bottom:1px solid rgba(22,39,28,.2)}
+  .entry-code small{display:inline;margin-left:8px}
+  header::before{left:10px}
+  header .masthead{padding-left:14px}
+  .masthead-meta{grid-template-columns:1fr;justify-content:stretch}
+  .masthead-meta div{border-right:0;border-bottom:1.5px solid var(--ink);justify-content:space-between}
+  .masthead-meta div:last-child{border-bottom:0}
+  .wrap{padding:0 16px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap masthead">
+    <p class="eyebrow">Folio No. 001 <span class="rule"></span> For use with Claude &amp; ChatGPT</p>
+    <h1>The Prompt <em>Ledger</em></h1>
+    <p class="lede">A working library of <strong>50 writing prompts</strong> for accounting books, guides, reports and compliance documents — plus <strong>12 prompts for charts, diagrams and graphs</strong>. Organised like a chart of accounts: find the account class, pick an entry, copy it, fill in the <strong style="color:var(--redink)">[bracketed]</strong> fields, and paste it into your AI of choice.</p>
+    <div class="masthead-meta">
+      <div>Writing prompts <b>50</b></div>
+      <div>Visual prompts <b>12</b></div>
+      <div>Account classes <b>6</b></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Prompt categories">
+  <div class="wrap">
+    <a href="#c1000"><b>1000</b> Books &amp; Long-Form</a>
+    <a href="#c2000"><b>2000</b> Technical Documents</a>
+    <a href="#c3000"><b>3000</b> Education &amp; Training</a>
+    <a href="#c4000"><b>4000</b> Client Reports</a>
+    <a href="#c5000"><b>5000</b> Tax &amp; Compliance</a>
+    <a href="#c6000"><b>6000</b> Charts &amp; Diagrams</a>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div class="toolbar">
+    <label class="search">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search the ledger… e.g. cash flow, IFRS, depreciation" aria-label="Search prompts">
+    </label>
+    <span class="count" id="count">62 entries posted</span>
+  </div>
+
+  <div id="ledger"><!-- entries rendered by script --></div>
+  <p class="no-results hidden" id="empty">No entries match. Try a broader term — the books balance better that way.</p>
+
+  <aside class="tips" aria-label="How to get better results">
+    <div class="tips-head">Notes to the file — getting better output</div>
+    <div class="tips-grid">
+      <div class="tip"><b>Fill every bracket.</b><span>Each <code>[field]</code> is a variable. The more specific the entry (jurisdiction, standard, audience), the better the output reconciles with what you need.</span></div>
+      <div class="tip"><b>Chain the prompts.</b><span>For books: run an outline prompt first, approve it, then feed each chapter heading into a chapter-drafting prompt. One chapter per message keeps quality high.</span></div>
+      <div class="tip"><b>State the standard.</b><span>Always name the framework — US GAAP, IFRS, your local tax code and year. AI defaults to generic answers when the jurisdiction is left blank.</span></div>
+      <div class="tip"><b>Verify before filing.</b><span>Treat AI drafts like work from a junior associate: review every figure, citation and rule reference against the primary source before anything goes to a client or print.</span></div>
+    </div>
+  </aside>
+</main>
+
+<footer class="wrap">
+  <span>THE PROMPT LEDGER · ENTRIES 1010–6120</span>
+  <span>Books verified &amp; closed — no adjusting entries required</span>
+</footer>
+
+<script>
+const SECTIONS = [
+{
+  id:"c1000", code:"1000", color:"", title:"Books & Long-Form Guides",
+  desc:"Outlines, chapter drafts, voice and structure for full-length accounting books and ebooks.",
+  prompts:[
+["Book Outline From Scratch","Outline",
+"Act as a developmental editor specialising in finance books. Create a complete chapter-by-chapter outline for a book titled \"[working title]\" aimed at [audience, e.g. small-business owners with no accounting background]. The book should take readers from [starting knowledge level] to [end capability]. For each of the 10–14 chapters, give: a working chapter title, a 2–3 sentence summary, 3 key takeaways, and one practical exercise or worked example."],
+["Chapter Draft From Outline","Draft",
+"You are co-writing a book on [book topic] for [audience]. Using this chapter outline: [paste outline], write a full 2,500–3,000 word chapter draft. Use a [warm and conversational / authoritative textbook] tone, explain every accounting term on first use, include at least two worked numerical examples with the arithmetic shown, and end with a 5-point chapter summary."],
+["Beginner's Book: Accounting Fundamentals","Outline",
+"Plan a beginner-friendly book called \"Accounting for [niche, e.g. Freelancers / Restaurant Owners / Etsy Sellers]\". List 12 chapters that cover: the accounting equation, debits and credits, the chart of accounts, recording transactions, bank reconciliation, financial statements, cash vs accrual, taxes basics for this niche, software setup, common mistakes, and a year-end checklist. For each chapter, write the opening paragraph in an encouraging, jargon-free voice."],
+["Worked Example Generator","Content",
+"For my book chapter on [topic, e.g. depreciation methods], create 3 worked examples of increasing difficulty using a fictional company called [name]. Each example must include: the scenario in 2–3 sentences, the relevant figures in a small table, the step-by-step calculation under [straight-line / declining balance / units of production / relevant method], the journal entries, and a one-sentence \"why this matters\" note."],
+["Story-Driven Opening","Draft",
+"Write a 600-word opening for a chapter on [topic, e.g. cash flow management]. Start with a short, realistic story about a profitable business that nearly failed because of [the problem the chapter solves], then bridge into why this chapter matters and what the reader will be able to do by the end. Audience: [audience]. Keep sentences short and avoid accounting jargon in the story itself."],
+["Glossary Builder","Reference",
+"From this chapter draft: [paste text], extract every accounting term a [beginner / intermediate] reader might not know and build a glossary. Define each term in plain English in 25 words or fewer, add one tiny example where helpful, and flag any terms whose meaning differs between US GAAP and IFRS."],
+["Book Title & Subtitle Options","Marketing",
+"Generate 15 title and subtitle combinations for a book about [topic] aimed at [audience]. Mix four styles: benefit-driven (\"...so you can...\"), curiosity-driven, authority/textbook style, and contrarian. For the top 3, explain why they would work on an Amazon search results page and suggest matching keywords."],
+["Chapter Revision Pass","Edit",
+"Act as a strict line editor for finance writing. Revise this chapter draft: [paste draft]. Tighten wordy sentences, replace jargon with plain language (or define it), make sure every numerical example is internally consistent, vary paragraph length, and flag any claim that needs a citation to an accounting standard or tax authority. Return the revised text plus a bullet list of changes you made."],
+["Case Study Chapter","Content",
+"Write a 1,500-word case-study section for my book on [topic]. Invent a realistic [industry] business with believable numbers (annual revenue around [amount]). Walk through how they faced [specific problem, e.g. inventory valuation chaos / a failed audit / a cash crunch], the accounting analysis that diagnosed it, the fix, and the before/after financial impact shown in a simple comparative table."],
+["Self-Publishing Back Matter","Reference",
+"Create the back matter for my accounting book \"[title]\": (1) a one-page 'About the Author' in third person based on these facts: [your background]; (2) a resources appendix listing the types of templates, checklists and calculators a reader of this book would want; (3) a standard professional disclaimer noting the book is educational, not personalised accounting or tax advice, adapted for [country]."]
+]},
+{
+  id:"c2000", code:"2000", color:"", title:"Technical & Professional Documents",
+  desc:"Policies, procedures, memos and internal documentation written to professional standard.",
+  prompts:[
+["Accounting Policy Manual Section","Policy",
+"Draft the [revenue recognition / fixed assets / expense reimbursement / inventory] section of an accounting policy manual for a [size, industry] company reporting under [US GAAP / IFRS]. Include: purpose, scope, definitions, the policy itself with specific thresholds I can adjust (mark them clearly), roles and responsibilities, the procedure step by step, and references to the relevant standard ([e.g. ASC 606 / IFRS 15])."],
+["Technical Accounting Memo","Memo",
+"Write a technical accounting memo in the standard format (Background, Issue, Authoritative Guidance, Analysis, Conclusion) on this question: [describe the transaction or issue]. The entity reports under [framework]. Cite the specific standard sections that apply, present both sides where judgement is involved, and state a supportable conclusion. Flag any areas where I should consult the primary text directly."],
+["Month-End Close Procedure","Procedure",
+"Create a detailed month-end close procedure document for a company using [software, e.g. QuickBooks Online / Xero / NetSuite]. Structure it as a numbered checklist grouped by day (Day 1 to Day [n]), covering bank reconciliations, accruals, prepayments, depreciation, intercompany, revenue cut-off, payroll tie-out, and management reporting. For each task include the owner role, the control performed, and the evidence retained."],
+["Internal Controls Documentation","Controls",
+"Document the internal controls over the [procure-to-pay / order-to-cash / payroll] cycle for a [size] company. Produce a process narrative, then a control matrix table with columns: control ID, control description, type (preventive/detective), frequency, owner, what could go wrong (risk), and test of the control. Aim for [8–12] key controls."],
+["Standard Operating Procedure (SOP)","Procedure",
+"Write an SOP titled \"[task, e.g. Processing Vendor Invoices]\" for the accounting team at a [industry] company. Use this structure: purpose, scope, definitions, prerequisites, step-by-step procedure with screenshots placeholders like [SCREENSHOT: …], exception handling, escalation path, and revision history table. Write steps so a brand-new hire could follow them on day one."],
+["Engagement Letter Draft","Letter",
+"Draft a professional engagement letter for [bookkeeping / annual accounts preparation / tax return preparation] services from [firm name] to a client in [country]. Cover scope of services, client responsibilities, fees and billing terms of [terms], limitations of the engagement, confidentiality, and termination. Use clear, plain-English drafting and mark every clause I must have reviewed by a lawyer or my professional body."],
+["Audit Preparation Pack","Checklist",
+"Create a 'Prepared By Client' (PBC) request list for a first-year external audit of a [industry, size] company with a [date] year end. Group requests by area (cash, AR, inventory, fixed assets, AP, debt, equity, revenue, payroll, tax) and for each item state the document needed, the period covered, and the preferred format."],
+["Variance Analysis Commentary","Analysis",
+"Here are my budget-vs-actual figures: [paste table]. Write professional management commentary explaining the variances. For each material variance (over [threshold]% or [amount]), state the variance, the likely driver categories to investigate, and a question management should answer. Use neutral, board-ready language and never invent causes — frame unknowns as items requiring follow-up."],
+["Fixed Asset Capitalisation Policy","Policy",
+"Draft a fixed asset and capitalisation policy under [framework] with: a capitalisation threshold of [amount], asset categories and useful lives in a table, treatment of repairs vs improvements, componentisation rules, disposal and impairment procedures, and the journal entries for acquisition, depreciation and disposal of an example asset."],
+["Process Improvement Proposal","Proposal",
+"Write a one-page internal proposal to automate [process, e.g. accounts payable invoice entry] at a company processing [volume] transactions per month. Include current-state pain points, proposed future state, estimated time savings calculation (show the arithmetic with my inputs: [hours, rates]), risks, and a 90-day implementation plan."]
+]},
+{
+  id:"c3000", code:"3000", color:"", title:"Educational & Training Content",
+  desc:"Courses, lessons, quizzes and explainers for students, staff and non-financial readers.",
+  prompts:[
+["Explain Like I'm a Beginner","Explainer",
+"Explain [concept, e.g. accrual accounting / deferred tax / double-entry bookkeeping] to someone with zero finance background. Use one extended real-life analogy (not a lemonade stand), keep it under 400 words, then give one tiny numerical example, then a 3-question self-check quiz with answers."],
+["Online Course Curriculum","Course",
+"Design a [6-week] online course called \"[course name]\" for [audience]. For each week provide: learning objectives (measurable, using verbs like calculate, prepare, interpret), 3–4 lesson titles with 2-sentence descriptions, a practical assignment using realistic data, and the assessment method. Include a capstone project for the final week."],
+["Lesson Script for Video","Script",
+"Write a 7–9 minute video lesson script teaching [topic, e.g. how to read a balance sheet]. Format: HOOK (30 seconds), CONCEPT, WORKED EXAMPLE with on-screen numbers I can show, COMMON MISTAKE, RECAP, and a call to action. Mark visual cues in brackets like [SHOW: balance sheet with assets highlighted]. Conversational tone, no filler."],
+["Quiz & Exam Question Bank","Assessment",
+"Create 15 assessment questions on [topic] at [introductory / intermediate / professional-exam] level: 8 multiple choice (4 options, one correct, plausible distractors based on real misconceptions), 4 short calculation problems with full worked solutions, and 3 scenario questions requiring judgement. Provide an answer key with one-line explanations of why each distractor is wrong."],
+["Common Mistakes Article","Article",
+"Write an article: \"[number] Mistakes [audience] Make With [topic, e.g. VAT / payroll / bookkeeping]\". For each mistake: a relatable description of how it happens, the consequence in money or compliance terms, and the exact corrective habit or control. 1,200 words, scannable subheadings, practical and specific — no generic advice like 'be careful'."],
+["Concept Comparison Table + Narrative","Explainer",
+"Compare [concept A] vs [concept B] (e.g. cash vs accrual accounting, FIFO vs weighted average, operating vs finance leases under IFRS 16). Produce: a side-by-side table with 6–8 comparison criteria, a 300-word narrative on when each is appropriate, and one numerical example calculated under BOTH methods so the difference in the figures is visible."],
+["Staff Onboarding Module","Training",
+"Create an onboarding training module for a new [accounts payable clerk / junior bookkeeper] at a [industry] company. Include: what the role owns, a map of how their work feeds the financial statements, the 5 most important things to get right in month one, key terminology, and a week-by-week 30-day learning plan with checkpoints."],
+["Analogy Bank","Explainer",
+"Give me 5 different analogies for explaining [difficult concept, e.g. deferred revenue / depreciation / retained earnings], each suited to a different audience: a teenager, a small-business owner, an engineer, a marketing manager, and a board member. Keep each under 80 words and note the limitation of each analogy (where it breaks down)."],
+["Workshop Agenda & Materials","Training",
+"Plan a [half-day] hands-on workshop: \"[title, e.g. Finance for Non-Financial Managers]\" for [number] participants. Provide a timed agenda, learning outcomes, two interactive exercises with realistic data sets described in full, discussion questions, and a one-page handout summarising the key frameworks covered."],
+["Exam Study Guide","Study aid",
+"Build a study guide for the [exam, e.g. CPA FAR section / ACCA FA paper] topic of [topic]. Include: the key rules condensed into memory-friendly bullet points, 3 mnemonics, the calculations that always appear with a template for each, the traps examiners set, and a 25-question rapid-fire self-test (answers at the end)."]
+]},
+{
+  id:"c4000", code:"4000", color:"", title:"Client-Facing Reports & Communication",
+  desc:"Reports, letters and emails that translate the numbers for clients, owners and boards.",
+  prompts:[
+["Plain-English Financial Report","Report",
+"Here are a client's summary financials: [paste figures]. Write a one-page plain-English report for a business owner with no finance training. Cover: how the business performed, the 3 numbers that matter most this period and why, one risk to watch, and one practical recommendation. No jargon without an inline explanation. Warm but direct tone."],
+["Monthly Management Report Template","Template",
+"Design a monthly management report template for a [industry] business. Specify the sections in order (executive summary, P&L vs budget, cash flow and runway, KPIs, balance sheet highlights, action items), what belongs in each, the 6–8 KPIs most relevant to this industry with their formulas, and example commentary sentences I can adapt each month."],
+["Bad News Letter: Fee Increase","Letter",
+"Draft a letter to existing clients of [firm name] announcing a fee increase of [percentage]% effective [date]. Acknowledge the relationship, give the honest rationale ([rising costs / expanded scope / investment in service]), state the new structure clearly, offer a call to discuss, and keep it under 250 words. Professional, confident, not apologetic."],
+["Year-End Tax Planning Letter","Letter",
+"Write a year-end planning letter to small-business clients in [country] for tax year [year]. Cover [number] planning moves to consider before year end in categories like timing of income and expenses, asset purchases, retirement contributions, and entity-level considerations. Frame every item as 'discuss with us whether this applies to you' rather than blanket advice, and include the standard disclaimer."],
+["Explaining the Financial Statements","Email",
+"Write an email to a client delivering their annual financial statements. In under 300 words: tell them the headline result, explain in one sentence each what the P&L, balance sheet and cash flow statement show, point out the one thing in this year's numbers worth a conversation ([describe it]), and propose two meeting times."],
+["Cash Flow Warning Conversation","Script",
+"My client's numbers show [describe the cash position and burn]. Write talking points for a difficult but constructive conversation warning them about a potential cash shortfall in [timeframe]. Structure: the facts without drama, what happens if nothing changes, 4 concrete levers (collections, payables timing, costs, financing), and how to open the conversation without triggering panic or defensiveness."],
+["Proposal for New Client","Proposal",
+"Write a services proposal from [firm] to a prospective client: a [industry] business with [revenue/size] currently struggling with [pain points]. Sections: our understanding of your situation, scope of services in a clear table with deliverables and frequency, what we need from you, pricing presented as [fixed monthly / tiered packages], onboarding timeline, and next step."],
+["Board Pack Executive Summary","Report",
+"Turn these management accounts into a board-ready executive summary: [paste key figures and events]. One page maximum: performance vs plan in 3 bullets, the financial position in 2 bullets, key risks and mitigations, decisions required from the board (be explicit), and outlook. Formal register, every claim tied to a number."],
+["Client FAQ Document","Reference",
+"Create an FAQ document our [bookkeeping / tax] clients receive at onboarding. Answer the 12 questions clients actually ask, such as: what do you need from me each month, how do I send receipts, what's deductible, when are my filing deadlines in [country], what happens if I'm late, how do we communicate, and what's not included in my package. Friendly, clear, specific."],
+["Collections Email Sequence","Email",
+"Write a 4-email sequence for overdue invoices, escalating from day 1 past due to day 60: (1) friendly reminder, (2) firm follow-up with payment options, (3) formal notice referencing terms of [payment terms], (4) final notice before [escalation step]. Keep every email short, factual and professional — never hostile — and include subject lines."]
+]},
+{
+  id:"c5000", code:"5000", color:"", title:"Standards, Tax & Compliance Writing",
+  desc:"Drafting around GAAP, IFRS, tax rules and disclosures — always verified against the primary source.",
+  prompts:[
+["Standard Summary in Plain English","Summary",
+"Summarise [standard, e.g. IFRS 16 Leases / ASC 842 / ASC 606] for a practising accountant who needs a refresher. Cover: core principle in one sentence, scope and exemptions, the recognition and measurement model step by step, key judgements, disclosure highlights, and the 3 most common implementation errors. Note where the standard contains detailed rules I must read in the original text."],
+["GAAP vs IFRS Difference Brief","Comparison",
+"Create a briefing on the key differences between US GAAP and IFRS for [area, e.g. inventory, development costs, impairment, revenue]. Use a table: topic, US GAAP treatment, IFRS treatment, practical impact on the financial statements. Then add a short narrative on what a company converting from one framework to the other in this area should plan for. Flag anything that may have changed recently so I can verify against current standards."],
+["Disclosure Note Drafting","Disclosure",
+"Draft the [significant accounting policies / leases / revenue / financial instruments] note for the financial statements of a [size, industry] company under [framework], year ending [date]. Use these facts: [paste details]. Follow typical disclosure structure for this note, insert [placeholders] for every figure, and list the disclosure requirements you've addressed so I can tick them against the standard's checklist."],
+["Tax Deduction Guide by Business Type","Guide",
+"Write a practical guide to commonly available business expense deductions for a [business type, e.g. sole-trader consultant / limited company / LLC] in [country], tax year [year]. Group by category (home office, vehicle, equipment, travel, training, etc.), explain the conditions and record-keeping required for each, note grey areas where rules are commonly misapplied, and add a clear disclaimer that rules change and a professional should confirm current law."],
+["New Rule Impact Memo","Memo",
+"Write an internal memo assessing the impact of [new standard or tax rule] on a [industry] company with these characteristics: [facts]. Structure: what changed and effective date, who and what is affected in our business, quantification approach (what data we need to gather), required system and process changes, disclosure or filing implications, and a project timeline. Mark every statement about the rule itself for verification against the primary source."],
+["Compliance Calendar","Calendar",
+"Build an annual compliance calendar for a [entity type] in [country] with a [month] year end and [number] employees. List month by month: tax filings and payments, payroll obligations, statutory accounts and confirmation deadlines, and recurring internal deadlines (board reporting, budget cycle). Present as a table with deadline, obligation, responsible role, and lead time needed. Note that exact dates must be verified for the current year."],
+["Accounting Estimate Justification","Memo",
+"Draft a memo supporting management's estimate for [estimate, e.g. allowance for doubtful accounts / inventory obsolescence reserve / warranty provision]. Include: the methodology, the data inputs and assumptions in a table, sensitivity analysis showing the estimate under [optimistic / base / pessimistic] assumptions, comparison to historical accuracy, and why the chosen point in the range is supportable for audit."],
+["Related Party & Ethics Section","Policy",
+"Draft a related-party transactions and conflicts-of-interest policy for a [private company / nonprofit] in [country]. Cover: definitions of related parties, identification and annual declaration procedure, approval thresholds and who approves, documentation and disclosure requirements under [framework], and example scenarios with the correct handling of each."],
+["Nonprofit Fund Accounting Explainer","Guide",
+"Write a chapter-length guide (1,800 words) on fund accounting for nonprofit board members in [country]. Explain restricted vs unrestricted funds, why a surplus in one fund can't cover a deficit in another, how this shows up in the financial statements, the trustee's/board's oversight duties, and 3 mini-scenarios with the right and wrong treatment."],
+["Audit Finding Response","Response",
+"The auditors raised this finding: [paste finding]. Draft management's written response including: acknowledgement and root cause analysis, the corrective action plan with specific steps, owners and target dates, interim compensating controls, and how recurrence will be monitored. Tone: accountable and constructive, no defensiveness, no over-promising."]
+]},
+{
+  id:"c6000", code:"6000", color:"viz", title:"Charts, Diagrams & Graphs",
+  desc:"Prompts that produce visuals: working chart code, Mermaid diagrams, Excel chart instructions and data visual design.",
+  prompts:[
+["Accounting Cycle Diagram (Mermaid)","Diagram",
+"Create a Mermaid flowchart of the full accounting cycle from source documents through to post-closing trial balance. Use clear node labels, group the steps into three subgraphs (During the Period, Period End, Closing), and add decision points where errors loop back to correction. Output only the Mermaid code block so I can paste it into a renderer."],
+["P&L Waterfall Chart","Chart",
+"Using this income statement data: [paste revenue, COGS, opex lines, tax, net income], build a waterfall chart showing how revenue steps down to net income. Generate it as [a working HTML/JavaScript chart / Python matplotlib code / step-by-step Excel instructions]. Use green for income items, red for costs, and a distinct colour for subtotals (gross profit, operating profit, net income), with data labels on every bar."],
+["Month-End Close Swimlane","Diagram",
+"Create a Mermaid swimlane-style flowchart (use subgraphs as lanes) of a month-end close process with lanes for: AP Clerk, AR Clerk, Staff Accountant, Controller. Show the tasks in sequence, the handoffs between lanes, and the final review and sign-off. Output the Mermaid code only."],
+["Budget vs Actual Bar Chart","Chart",
+"From this data: [paste months with budget and actual figures], create a grouped bar chart comparing budget vs actual by month, with a line overlay for cumulative variance. Provide [interactive HTML with Chart.js / Python code / Excel steps]. Include a title, axis labels with currency formatting, and a callout or annotation on the month with the largest variance."],
+["Cash Flow Trend & Runway Chart","Chart",
+"Using this monthly data: [paste cash balance and net burn by month], build a chart with: a line for the cash balance, a shaded danger zone below [minimum cash threshold], and a dotted projection line extending the recent average burn rate forward to show the runway date. Output as [HTML/JS / Python / Excel instructions] and state the calculated runway in months."],
+["Double-Entry Concept Diagram","Diagram",
+"Design a teaching diagram that shows how one transaction — [e.g. buying a $5,000 machine half in cash, half on credit] — flows through double-entry bookkeeping: the journal entry, the T-accounts affected, and where each account lands on the balance sheet. Produce it as Mermaid code (or clean SVG) suitable for a textbook page, with debits consistently on the left."],
+["Expense Breakdown Donut","Chart",
+"From these expense categories and amounts: [paste data], create a donut chart of spending by category. Show percentage and amount in the labels, order segments largest to smallest, group anything under [3]% into 'Other', and put the total spend in the centre. Output as [HTML/JS / Python]. Then tell me honestly if a bar chart would communicate this data better and why."],
+["Chart of Accounts Tree","Diagram",
+"Generate a Mermaid mindmap or tree diagram of a standard chart of accounts for a [industry] company: Assets, Liabilities, Equity, Revenue, Expenses as main branches, with 4–6 typical accounts under each including account numbers in the [1000–5999] convention. Output the Mermaid code only."],
+["KPI Dashboard Mock-up","Dashboard",
+"Build a single-file HTML financial KPI dashboard using this data: [paste figures]. Include: 4 KPI cards (revenue, gross margin %, current ratio, days sales outstanding) each with a trend arrow vs prior period, one revenue trend line chart, one expense category bar chart, and a clean professional layout suitable for screenshotting into a board pack. All in one HTML file with embedded Chart.js."],
+["Break-Even Analysis Graph","Chart",
+"With fixed costs of [amount], variable cost per unit of [amount], and price per unit of [amount], create a classic break-even chart: total revenue line, total cost line, fixed cost line, shaded loss and profit regions, and a marked break-even point with its label showing units and revenue. Output as [Python matplotlib / HTML]. Also show the break-even formula and the calculation."],
+["Ratio Trend Small Multiples","Chart",
+"From these 8 quarters of financial data: [paste data], compute current ratio, quick ratio, gross margin, net margin, and debt-to-equity, then create a small-multiples grid of 5 mini line charts (one per ratio) sharing the same time axis. Add a reference band for the healthy range of each ratio for a [industry] company. Output as [Python / HTML] code I can run."],
+["Audit / Approval Flow Diagram","Diagram",
+"Create a Mermaid flowchart of an invoice approval workflow: receipt of invoice, 3-way match against PO and goods receipt, exception handling when the match fails, approval tiers ([amounts] to manager, above [amount] to CFO), posting, and payment run. Use diamond decision nodes for every check and label the yes/no paths. Output the Mermaid code only."]
+]}
+];
+
+const ledger = document.getElementById('ledger');
+const frag = document.createDocumentFragment();
+let totalEntries = 0;
+
+SECTIONS.forEach(sec=>{
+  const s = document.createElement('section');
+  s.className='acct'; s.id=sec.id;
+  s.innerHTML = `
+    <div class="acct-head">
+      <span class="acct-code ${sec.color}">${sec.code}</span>
+      <h2>${sec.title}</h2>
+      <p class="acct-desc">${sec.desc}</p>
+    </div>`;
+  sec.prompts.forEach((p,i)=>{
+    totalEntries++;
+    const codeNum = parseInt(sec.code,10) + (i+1)*10;
+    const art = document.createElement('article');
+    art.className='entry';
+    art.dataset.search = (p[0]+' '+p[1]+' '+p[2]+' '+sec.title).toLowerCase();
+    const promptHtml = escapeHtml(p[2]).replace(/\[([^\]]+)\]/g,'<mark>[$1]</mark>');
+    art.innerHTML = `
+      <div class="entry-code">${codeNum}<small>ACCT NO.</small></div>
+      <div class="entry-body">
+        <div class="entry-top"><h3>${p[0]}</h3><span class="tag">${p[1]}</span></div>
+        <div class="prompt">${promptHtml}</div>
+        <div class="entry-actions">
+          <button class="copy" type="button">COPY ENTRY</button>
+          <span class="use">paste into Claude or ChatGPT, then fill the red fields</span>
+        </div>
+      </div>`;
+    art.querySelector('.copy').addEventListener('click',e=>{
+      navigator.clipboard.writeText(p[2]).then(()=>{
+        const b=e.currentTarget; b.textContent='POSTED ✓'; b.classList.add('done');
+        setTimeout(()=>{b.textContent='COPY ENTRY';b.classList.remove('done');},1600);
+      }).catch(()=>{ e.currentTarget.textContent='SELECT & COPY MANUALLY'; });
+    });
+    s.appendChild(art);
+  });
+  frag.appendChild(s);
+});
+ledger.appendChild(frag);
+document.getElementById('count').textContent = totalEntries + ' entries posted';
+
+function escapeHtml(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+/* Search filter */
+const q = document.getElementById('q');
+const empty = document.getElementById('empty');
+q.addEventListener('input',()=>{
+  const term = q.value.trim().toLowerCase();
+  let visible = 0;
+  document.querySelectorAll('.entry').forEach(en=>{
+    const show = !term || en.dataset.search.includes(term);
+    en.classList.toggle('hidden',!show);
+    if(show) visible++;
+  });
+  document.querySelectorAll('section.acct').forEach(sec=>{
+    const any = sec.querySelector('.entry:not(.hidden)');
+    sec.classList.toggle('hidden',!any);
+  });
+  empty.classList.toggle('hidden',visible>0);
+  document.getElementById('count').textContent = visible + ' entries posted';
+});
+
+/* Active tab highlighting on scroll */
+const tabs = document.querySelectorAll('nav.tabs a');
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      tabs.forEach(t=>t.classList.toggle('active', t.getAttribute('href')==='#'+en.target.id));
+    }
+  });
+},{rootMargin:'-20% 0px -70% 0px'});
+document.querySelectorAll('section.acct').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
