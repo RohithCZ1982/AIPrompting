@@ -113,6 +113,65 @@ button:focus-visible,input:focus-visible{
 .search input::placeholder{color:var(--pencil)}
 .count{font-family:var(--mono);font-size:.78rem;color:var(--pencil);letter-spacing:.05em}
 
+/* ── RICE Framework strip ───────────────── */
+.rice-strip{
+  margin:18px 0 0;
+  border:1.5px solid var(--ink);
+  background:var(--card);
+}
+.rice-header{
+  display:flex;align-items:center;gap:14px;
+  background:var(--ink);color:var(--paper);
+  padding:9px 18px;font-family:var(--mono);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;
+}
+.rice-header span{opacity:.55;font-size:.72rem;letter-spacing:.05em;font-family:var(--sans)}
+.rice-body{
+  display:grid;grid-template-columns:1fr 1fr 1fr 1fr;
+  border-top:0;
+}
+.rice-col{
+  padding:16px 18px;border-right:1.5px solid rgba(22,39,28,.18);
+}
+.rice-col:last-child{border-right:0}
+.rice-letter{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border-radius:50%;
+  font-family:var(--slab);font-weight:900;font-size:1rem;color:#fff;
+  margin-bottom:8px;flex-shrink:0;
+}
+.rice-letter.r{background:#7C6FCD}
+.rice-letter.i{background:#5BACD8}
+.rice-letter.c{background:#5BB87A}
+.rice-letter.e{background:#E5A84B}
+.rice-word{
+  font-family:var(--slab);font-weight:700;font-size:.92rem;
+  margin-bottom:4px;color:var(--ink);
+}
+.rice-desc{font-size:.8rem;color:var(--pencil);line-height:1.45}
+.rice-hint{font-family:var(--mono);font-size:.7rem;color:var(--green-deep);margin-top:5px;opacity:.8}
+.rice-footer{
+  border-top:1px solid rgba(22,39,28,.15);
+  padding:10px 18px;
+  display:flex;gap:28px;align-items:center;flex-wrap:wrap;
+}
+.rice-checklist{
+  display:flex;gap:18px;flex-wrap:wrap;list-style:none;
+  font-family:var(--mono);font-size:.72rem;color:var(--pencil);
+}
+.rice-checklist li::before{content:"✓ ";color:var(--green)}
+.rice-rule{
+  font-family:var(--mono);font-size:.74rem;color:var(--pencil);
+  margin-left:auto;font-style:italic;
+}
+@media (max-width:700px){
+  .rice-body{grid-template-columns:1fr 1fr}
+  .rice-col{border-bottom:1px solid rgba(22,39,28,.12)}
+  .rice-rule{margin-left:0}
+}
+@media (max-width:420px){
+  .rice-body{grid-template-columns:1fr}
+}
+
 /* ── Sections ───────────────── */
 section.acct{padding:42px 0 8px}
 .acct-head{
@@ -247,6 +306,49 @@ footer{
       <input id="q" type="search" placeholder="Search the ledger… e.g. cash flow, IFRS, depreciation" aria-label="Search prompts">
     </label>
     <span class="count" id="count">62 entries posted</span>
+  </div>
+
+  <!-- RICE Framework quick-reference -->
+  <div class="rice-strip" aria-label="Prompt writing framework">
+    <div class="rice-header">
+      Prompt Formula: RICE
+      <span>— fill all four parts for the best output</span>
+    </div>
+    <div class="rice-body">
+      <div class="rice-col">
+        <div class="rice-letter r">R</div>
+        <div class="rice-word">Role</div>
+        <div class="rice-desc">Define the AI's role and expertise — who should it act as?</div>
+        <div class="rice-hint">e.g. "Act as a CPA specialising in IFRS…"</div>
+      </div>
+      <div class="rice-col">
+        <div class="rice-letter i">I</div>
+        <div class="rice-word">Input</div>
+        <div class="rice-desc">Provide the information and data it needs — text, figures, files.</div>
+        <div class="rice-hint">e.g. "Here is the trial balance: [paste]…"</div>
+      </div>
+      <div class="rice-col">
+        <div class="rice-letter c">C</div>
+        <div class="rice-word">Context</div>
+        <div class="rice-desc">Give background, constraints and details — why does it matter?</div>
+        <div class="rice-hint">e.g. "This is for a US-GAAP mid-size manufacturer…"</div>
+      </div>
+      <div class="rice-col">
+        <div class="rice-letter e">E</div>
+        <div class="rice-word">Expectation</div>
+        <div class="rice-desc">State the desired output format and quality — length, tone, structure.</div>
+        <div class="rice-hint">e.g. "Return a 3-column table, under 400 words…"</div>
+      </div>
+    </div>
+    <div class="rice-footer">
+      <ul class="rice-checklist">
+        <li>Clear Role</li>
+        <li>Enough Input</li>
+        <li>Relevant Context</li>
+        <li>Clear Expectation</li>
+      </ul>
+      <span class="rice-rule">The better your RICE, the better the response.</span>
+    </div>
   </div>
 
   <div id="ledger"><!-- entries rendered by script --></div>
