@@ -172,6 +172,62 @@ button:focus-visible,input:focus-visible{
   .rice-body{grid-template-columns:1fr}
 }
 
+/* ── Example prompts ───────────────── */
+.examples-strip{
+  margin:12px 0 0;
+  border:1.5px solid var(--ink);
+  background:var(--card);
+}
+.examples-header{
+  display:flex;align-items:center;gap:14px;
+  background:var(--green-deep);color:var(--paper);
+  padding:9px 18px;font-family:var(--mono);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;
+}
+.examples-header span{opacity:.65;font-size:.72rem;letter-spacing:.05em;font-family:var(--sans);font-style:italic}
+.examples-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;
+}
+.ex-card{
+  padding:18px 20px;border-right:1px solid rgba(22,39,28,.15);border-bottom:1px solid rgba(22,39,28,.15);
+}
+.ex-card:nth-child(even){border-right:0}
+.ex-card:nth-last-child(-n+2){border-bottom:0}
+.ex-label{
+  display:flex;align-items:center;gap:8px;margin-bottom:10px;
+}
+.ex-tag{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid currentColor;padding:2px 7px;color:var(--pencil);
+}
+.ex-topic{font-family:var(--slab);font-weight:700;font-size:.88rem;color:var(--ink)}
+.ex-prompt{
+  font-family:var(--mono);font-size:.78rem;line-height:1.65;
+  background:var(--paper);border:1px dashed rgba(22,39,28,.3);
+  padding:12px 14px;color:#22332A;
+}
+.ex-prompt .r{color:#7C6FCD;font-weight:600}
+.ex-prompt .i{color:#3A8FC7;font-weight:600}
+.ex-prompt .c{color:#2E8B57;font-weight:600}
+.ex-prompt .e{color:#C47B10;font-weight:600}
+.ex-pills{
+  display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.08em;
+}
+.ex-pill{
+  padding:2px 8px;border-radius:10px;
+}
+.ex-pill.r{background:#EDE9FB;color:#5B4BAF}
+.ex-pill.i{background:#E4F2FA;color:#2B6E96}
+.ex-pill.c{background:#E3F5EC;color:#1E6B40}
+.ex-pill.e{background:#FDF2DC;color:#A0620A}
+@media (max-width:640px){
+  .examples-grid{grid-template-columns:1fr}
+  .ex-card{border-right:0}
+  .ex-card:nth-last-child(-n+2){border-bottom:1px solid rgba(22,39,28,.15)}
+  .ex-card:last-child{border-bottom:0}
+}
+
 /* ── Sections ───────────────── */
 section.acct{padding:42px 0 8px}
 .acct-head{
@@ -258,6 +314,21 @@ footer{
   padding:26px 0 40px;font-family:var(--mono);font-size:.74rem;
   color:var(--pencil);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 }
+
+/* ── Back to top button ───────────────── */
+#back-to-top{
+  position:fixed;bottom:32px;right:32px;z-index:100;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--ink);color:var(--paper);
+  border:2px solid var(--ink);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .22s,background .15s,transform .15s;
+  box-shadow:0 3px 12px rgba(22,39,28,.28);
+}
+#back-to-top.visible{opacity:1;pointer-events:auto}
+#back-to-top:hover{background:var(--green-deep);border-color:var(--green-deep);transform:translateY(-2px)}
+#back-to-top svg{display:block}
 
 @media (max-width:640px){
   .entry{grid-template-columns:1fr}
@@ -351,6 +422,73 @@ footer{
     </div>
   </div>
 
+  <!-- Example prompts -->
+  <div class="examples-strip" aria-label="Good prompt examples">
+    <div class="examples-header">
+      Good Prompt Examples
+      <span>— notice how each covers all four RICE parts</span>
+    </div>
+    <div class="examples-grid">
+
+      <div class="ex-card">
+        <div class="ex-label">
+          <span class="ex-tag">Data Analysis</span>
+          <span class="ex-topic">Hidden Insights from a Dataset</span>
+        </div>
+        <div class="ex-prompt"><span class="r">You are an expert data scientist with 20+ years of experience in data analysis.</span> <span class="i">Go through the CSV file I've attached below and understand the data.</span> <span class="c">I need to present findings to my boss — focus on insights most people would miss.</span> <span class="e">Find the hidden patterns, then convert everything into a beautiful dashboard with clear visualisations I can share with my team.</span></div>
+        <div class="ex-pills">
+          <span class="ex-pill r">R: expert data scientist</span>
+          <span class="ex-pill i">I: attached CSV file</span>
+          <span class="ex-pill c">C: boss presentation</span>
+          <span class="ex-pill e">E: dashboard + visuals</span>
+        </div>
+      </div>
+
+      <div class="ex-card">
+        <div class="ex-label">
+          <span class="ex-tag">Financial Report</span>
+          <span class="ex-topic">Board-Ready Executive Summary</span>
+        </div>
+        <div class="ex-prompt"><span class="r">You are a CFO-level financial analyst who writes board-level reports.</span> <span class="i">Here are our Q3 figures: [paste P&amp;L and cash flow summary].</span> <span class="c">Our board meets on Friday and they are laser-focused on cash runway and margin trends.</span> <span class="e">Write a one-page executive summary with the 3 most important metrics, a key risk, and one concrete recommendation. Formal tone, every claim tied to a number.</span></div>
+        <div class="ex-pills">
+          <span class="ex-pill r">R: CFO-level analyst</span>
+          <span class="ex-pill i">I: Q3 figures pasted</span>
+          <span class="ex-pill c">C: Friday board meeting</span>
+          <span class="ex-pill e">E: 1-page, formal, numbered</span>
+        </div>
+      </div>
+
+      <div class="ex-card">
+        <div class="ex-label">
+          <span class="ex-tag">Client Communication</span>
+          <span class="ex-topic">Explaining a Complex Tax Rule</span>
+        </div>
+        <div class="ex-prompt"><span class="r">You are a senior accountant who specialises in making tax rules easy to understand for non-accountants.</span> <span class="i">The rule is the home-office deduction under IRS Publication 587 for a sole proprietor.</span> <span class="c">My client is a freelance designer — no accounting background — who works from a spare bedroom.</span> <span class="e">Write a plain-English email (under 300 words) covering what qualifies, what records to keep, and one worked example with real numbers. No jargon without a definition.</span></div>
+        <div class="ex-pills">
+          <span class="ex-pill r">R: senior accountant</span>
+          <span class="ex-pill i">I: IRS Pub 587 rule</span>
+          <span class="ex-pill c">C: freelance designer client</span>
+          <span class="ex-pill e">E: email, &lt;300 words, worked example</span>
+        </div>
+      </div>
+
+      <div class="ex-card">
+        <div class="ex-label">
+          <span class="ex-tag">Compliance Review</span>
+          <span class="ex-topic">Expense Deductibility Audit</span>
+        </div>
+        <div class="ex-prompt"><span class="r">You are a US tax attorney with deep expertise in small-business deductions.</span> <span class="i">Review this list of expenses from our books: [paste expense lines with amounts].</span> <span class="c">The entity is a California LLC taxed as an S-Corp, tax year 2024. We are preparing for a potential IRS audit.</span> <span class="e">Flag any items that may not be fully deductible, cite the relevant IRC section for each, and return the results as a table: Expense | Verdict | Reason | Risk Level.</span></div>
+        <div class="ex-pills">
+          <span class="ex-pill r">R: US tax attorney</span>
+          <span class="ex-pill i">I: expense list pasted</span>
+          <span class="ex-pill c">C: CA LLC, audit prep</span>
+          <span class="ex-pill e">E: table with IRC citations</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <div id="ledger"><!-- entries rendered by script --></div>
   <p class="no-results hidden" id="empty">No entries match. Try a broader term — the books balance better that way.</p>
 
@@ -364,6 +502,12 @@ footer{
     </div>
   </aside>
 </main>
+
+<button id="back-to-top" aria-label="Back to top" title="Back to top">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="2,11 8,5 14,11"/>
+  </svg>
+</button>
 
 <footer class="wrap">
   <span>THE PROMPT LEDGER · ENTRIES 1010–6120</span>
@@ -602,6 +746,11 @@ const obs = new IntersectionObserver(entries=>{
   });
 },{rootMargin:'-20% 0px -70% 0px'});
 document.querySelectorAll('section.acct').forEach(s=>obs.observe(s));
+
+/* Back to top */
+const btn = document.getElementById('back-to-top');
+window.addEventListener('scroll',()=>btn.classList.toggle('visible',window.scrollY>320),{passive:true});
+btn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 </script>
 </body>
 </html>
